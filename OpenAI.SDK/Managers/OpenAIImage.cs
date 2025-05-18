@@ -18,6 +18,11 @@ public partial class OpenAIService : IImageService
         return await _httpClient.PostAndReadAsAsync<ImageCreateResponse>(_endpointProvider.ImageCreate(), imageCreateModel, cancellationToken);
     }
 
+    public async Task<ImageCreateResponse> CreateGptImage(GptImageCreateRequest imageCreateModel, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.PostAndReadAsAsync<ImageCreateResponse>(_endpointProvider.ImageCreate(), imageCreateModel, cancellationToken);
+    }
+
     /// <summary>
     ///     Creates an edited or extended image given an original image and a prompt.
     /// </summary>

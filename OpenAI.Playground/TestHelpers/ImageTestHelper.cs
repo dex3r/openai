@@ -1,5 +1,8 @@
-﻿using Betalgo.Ranul.OpenAI.Interfaces;
+﻿using Betalgo.Ranul.OpenAI;
+using Betalgo.Ranul.OpenAI.Interfaces;
+using Betalgo.Ranul.OpenAI.Managers;
 using Betalgo.Ranul.OpenAI.ObjectModels;
+using Betalgo.Ranul.OpenAI.ObjectModels.RequestModels;
 using OpenAI.Playground.ExtensionsAndHelpers;
 
 namespace OpenAI.Playground.TestHelpers;
@@ -19,6 +22,45 @@ internal static class ImageTestHelper
                 N = 1,
                 Size = StaticValues.ImageStatics.Size.Size1024,
                 ResponseFormat = StaticValues.ImageStatics.ResponseFormat.Url,
+                User = "TestUser"
+            });
+
+
+            if (imageResult.Successful)
+            {
+                Console.WriteLine(string.Join("\n", imageResult.Results.Select(r => r.Url)));
+            }
+            else
+            {
+                if (imageResult.Error == null)
+                {
+                    throw new("Unknown Error");
+                }
+
+                Console.WriteLine($"{imageResult.Error.Code}: {imageResult.Error.Message}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
+    public static async Task RunSimpleCreateGptImageTest(IOpenAIService sdk)
+    {
+        ConsoleExtensions.WriteLine("GPT Image Create Testing is starting:", ConsoleColor.Cyan);
+
+        try
+        {
+            ConsoleExtensions.WriteLine("GPT Image Create Test:", ConsoleColor.DarkCyan);
+            var imageResult = await sdk.Image.CreateGptImage(new()
+            {
+                Prompt = "Laser cat eyes",
+                N = 1,
+                Size = StaticValues.ImageStatics.Size.Size1024,
+                Moderation = "low",
+                OutputFormat = "png",
                 User = "TestUser"
             });
 

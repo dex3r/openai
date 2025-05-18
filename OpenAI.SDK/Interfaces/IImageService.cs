@@ -16,6 +16,8 @@ public interface IImageService
     /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
     /// <returns></returns>
     Task<ImageCreateResponse> CreateImage(ImageCreateRequest imageCreate, CancellationToken cancellationToken = default);
+    
+    Task<ImageCreateResponse> CreateGptImage(GptImageCreateRequest imageCreate, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Creates an edited or extended image given an original image and a prompt.
